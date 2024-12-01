@@ -1,10 +1,13 @@
 Web Mining and Applied NLP (44-620)
 
 # Final Project: Article Summarizer
-Student Name: Albert Kabore
+
+### Student Name: Albert Kabore
+
 Link to GitHub: https://github.com/albertokabore/Albert_Final_Module_7_article-summarizer
 
 Complete the tasks in the Python Notebook in this repository.
+
 Make sure to add and push the pkl or text file of your scraped html (this is specified in the notebook)
 
 ## Rubric
