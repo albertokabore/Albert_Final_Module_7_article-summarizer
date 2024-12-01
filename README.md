@@ -41,6 +41,17 @@ Clone your new repository down to your machine into your Documents folder.
 
 git clone: https://github.com/albertokabore/Albert_Final_Module_7_article-summarizer
 
+### Install SpaCy
+
+```powershell
+python -m venv .env
+.env\Scripts\activate
+pip install -U pip setuptools wheel
+pip install -U spacy
+python -m spacy download en_core_web_sm
+```
+
+
 ```powershell
 git add .
 git commit -m "initial commit"                         
