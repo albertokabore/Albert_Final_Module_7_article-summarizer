@@ -64,12 +64,15 @@ git push origin main
 # Import and test necessary packages
 
 ```python
+# Import and test necessary packages
+
 from collections import Counter
 import pickle
 import requests
 import spacy
 from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 import numpy as np
 from spacytextblob.spacytextblob import SpacyTextBlob
 
