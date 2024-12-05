@@ -123,6 +123,22 @@ with open('type_2_diabetes_article.txt', 'w', encoding='utf-8') as file:
 print("Extracted text saved to 'type_2_diabetes_article.txt'")
 ```
 
+```python
+# Load the extracted text
+with open('type_2_diabetes_article.txt', 'r', encoding='utf-8') as file:
+    text = file.read()
+
+# Generate the word cloud
+wordcloud = WordCloud(width=800, height=400, background_color='white', colormap='viridis').generate(text)
+
+# Plot the word cloud
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')  # Remove axes
+plt.title('Word Cloud for Type 2 Diabetes Article', fontsize=16)
+plt.show()
+```
+
 ### Question 2. Read in your article's html source from the file you created in question 1 and do sentiment analysis on the article/post's text (use .get_text()). Print the polarity score with an appropriate label. Additionally print the number of sentences in the original article (with an appropriate label)
 
 ```python
