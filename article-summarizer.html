@@ -7528,7 +7528,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [262]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [291]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Import and test necessary packages</span>
@@ -7539,6 +7539,7 @@ a.anchor-link {
 <span class="kn">import</span> <span class="nn">spacy</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">spacytextblob.spacytextblob</span> <span class="kn">import</span> <span class="n">SpacyTextBlob</span>
 
@@ -7558,7 +7559,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Package                   Version
+<pre>Package                   VersionAll prereqs installed.
+
 ------------------------- --------------
 annotated-types           0.7.0
 anyio                     4.6.2.post1
@@ -7698,8 +7700,8 @@ weasel                    0.4.1
 webcolors                 24.11.1
 webencodings              0.5.1
 websocket-client          1.8.0
+wordcloud                 1.9.4
 wrapt                     1.17.0
-All prereqs installed.
 </pre>
 </div>
 </div>
@@ -7732,7 +7734,7 @@ All prereqs installed.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [263]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [292]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># URL of the NIH article on Type 2 Diabetes</span>
@@ -7781,7 +7783,7 @@ All prereqs installed.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [264]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [293]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load the saved HTML file</span>
@@ -7835,7 +7837,7 @@ All prereqs installed.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [265]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [294]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Fetch the HTML content from the URL</span>
@@ -8537,7 +8539,7 @@ Number of sentences in the article: 81
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [266]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [295]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Step 4: Text cleaning and tokenization</span>
@@ -8599,7 +8601,7 @@ Token: 'research' - Frequency: 12
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [267]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [296]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Extract and clean lemmas</span>
@@ -8661,7 +8663,7 @@ Lemma: 'niddk' - Frequency: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [268]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [297]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create a list of sentiment scores for each sentence</span>
@@ -8716,12 +8718,11 @@ Lemma: 'niddk' - Frequency: 13
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Observation:</p>
-<p>•	The histogram shows that the majority of sentences have a sentiment score close to 0.0, indicating a neutral tone throughout the article.</p>
-<p>•	Sentences with positive sentiment scores (ranging between 0.2 and 0.6) appear less frequently but are present, likely emphasizing motivational or hopeful content.</p>
-<p>•	Sentences with negative sentiment (scores below 0.0) are rare, suggesting the article maintains a predominantly neutral or positive tone.</p>
-<p>•	The clustering around 0.0 reflects the article's objective and informational nature, typical of health-related educational materials.</p>
-<p>•	The histogram’s spread indicates some variation in tone, with peaks in positive sentiment likely intended to engage or reassure the reader.</p>
-<p>•	Overall, the article balances neutrality with occasional positivity to deliver factual content with an encouraging tone.</p>
+<p>•	The sentiment scores are predominantly centered around 0, reflecting the neutral tone of the article.</p>
+<p>•	The highest frequency bin corresponds to sentiment scores very close to 0, showing the article's factual and balanced nature.</p>
+<p>•	Sentences with sentiment scores above 0.2 are fewer, indicating limited positivity in the article.</p>
+<p>•	A small number of sentences fall into the negative range (below 0), suggesting minimal negatively skewed content.</p>
+<p>•	The distribution has a long tail on the positive side, with a few sentences scoring above 0.6, highlighting occasional strongly positive sentiment.</p>
 </div>
 </div>
 </div>
@@ -8741,7 +8742,7 @@ Lemma: 'niddk' - Frequency: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [269]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [298]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create a list of sentiment scores using lemmas for each sentence</span>
@@ -8799,6 +8800,23 @@ Lemma: 'niddk' - Frequency: 13
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Observation:</p>
+<p>•	The majority of the sentences have sentiment scores around 0, indicating a highly neutral tone overall.</p>
+<p>•	The highest frequency bin corresponds to scores near 0, showing that most sentences are factual and balanced.</p>
+<p>•	Sentences with scores greater than 0.2 are less frequent, reflecting a limited presence of positive content.</p>
+<p>•	A small number of sentences fall below 0, indicating minimal negatively skewed sentiment in the article.</p>
+<p>•	There is a long positive tail, with a few sentences exceeding 0.6, suggesting the presence of occasional strongly positive sentences.</p>
+<p>•	Compared to token-based scoring, lemma-based scoring results in slightly tighter clustering, focusing more on semantic meaning.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Question-7.-Using-the-histograms-from-questions-5-and-6,-decide-a-%22cutoff%22-score-for-tokens-and-lemmas-such-that-fewer-than-half-the-sentences-would-have-a-score-greater-than-the-cutoff-score.--Record-the-scores-in-this-Markdown-cell">Question 7. Using the histograms from questions 5 and 6, decide a "cutoff" score for tokens and lemmas such that fewer than half the sentences would have a score greater than the cutoff score.  Record the scores in this Markdown cell<a class="anchor-link" href="#Question-7.-Using-the-histograms-from-questions-5-and-6,-decide-a-%22cutoff%22-score-for-tokens-and-lemmas-such-that-fewer-than-half-the-sentences-would-have-a-score-greater-than-the-cutoff-score.--Record-the-scores-in-this-Markdown-cell">¶</a></h3><ul>
 <li>Cutoff Score (tokens):</li>
 <li>Cutoff Score (lemmas):</li>
@@ -8812,7 +8830,7 @@ Lemma: 'niddk' - Frequency: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [270]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [299]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
@@ -9912,6 +9930,29 @@ Cutoff Score (lemmas): 0.00
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Observation:</p>
+<p>Histogram for Tokens:</p>
+<p>•	The majority of the sentences have sentiment scores near 0, indicating a largely neutral tone in the article.</p>
+<p>•	Sentences with scores greater than 0.2 are less frequent, suggesting limited positively or negatively skewed content.</p>
+<p>•	There is a visible tail for higher sentiment scores, reflecting occasional positive sentences within the article.</p>
+<p>Histogram for Lemmas:</p>
+<p>•	Similar to the token histogram, the sentiment scores center around 0, with most sentences having a neutral sentiment.</p>
+<p>•	Lemma-based scores show fewer extreme values compared to token-based scores, which emphasizes semantic core meanings.</p>
+<p>•	The cutoff at 0 captures sentences that are neutral to slightly positive, excluding strongly negative or neutral ones.
+Cutoff Scores:</p>
+<p>•	The red cutoff line at 0 effectively divides neutral and slightly positive sentences from the rest, ensuring summaries focus on meaningful and balanced content.</p>
+<p>Comparison of Lemmas and Tokens:</p>
+<p>•	The lemma-based histogram is slightly more compact, reflecting fewer outlier sentences due to semantic filtering.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 </div>
 </div>
 </div>
@@ -9931,7 +9972,7 @@ Cutoff Score (lemmas): 0.00
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [271]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [300]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Process the article text with SpaCy</span>
@@ -10391,7 +10432,7 @@ Cutoff Score (tokens): 0.00
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [272]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [301]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the polarity score of the summary</span>
@@ -10439,7 +10480,7 @@ Number of Sentences in the Summary: 36
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [273]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [302]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create a summary list for sentences with lemma-based scores greater than the cutoff</span>
@@ -10867,7 +10908,7 @@ Cutoff Score (lemmas): 0.00
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [274]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [303]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the polarity score of the lemma-based summary</span>
