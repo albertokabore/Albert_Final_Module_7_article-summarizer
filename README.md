@@ -171,68 +171,102 @@ print(f"Number of sentences in the article: {num_sentences}")
 ### Question 3. Load the article text into a trained spaCy pipeline, and determine the 5 most frequent tokens (converted to lower case). Print the common tokens with an appropriate label. Additionally, print the tokens their frequencies (with appropriate labels)
 
 ```python
-# Process the article text
-doc = nlp(article_text)
+# Step 4: Text cleaning and tokenization
+tokens = [
+    token.text.lower().strip()
+    for token in doc
+    if not token.is_stop  # Remove stop words
+    and not token.is_punct  # Remove punctuation
+    and not token.is_digit  # Remove numbers
+    and token.text.strip()  # Remove empty strings or whitespace
+]
 
-# Tokenize, normalize to lowercase, and count frequencies
-tokens = [token.text.lower() for token in doc if token.is_alpha]  # Only consider alphabetic tokens
-token_frequencies = Counter(tokens)
+# Step 5: Count token frequencies
+token_counts = Counter(tokens)
 
 # Get the 5 most common tokens
-most_common_tokens = token_frequencies.most_common(5)
+most_common_tokens = token_counts.most_common(5)
 
 # Print the results
 print("5 Most Frequent Tokens:")
-for token, frequency in most_common_tokens:
-    print(f"Token: {token}, Frequency: {frequency}")
-```
+for token, freq in most_common_tokens:
+    print(f"Token: '{token}' - Frequency: {freq}")
+ ```
 
 ### Question 4. Load the article text into a trained spaCy pipeline, and determine the 5 most frequent lemmas (converted to lower case). Print the common lemmas with an appropriate label. Additionally, print the lemmas with their frequencies (with appropriate labels).
 
 ```python
-# Process the article text
-doc = nlp(article_text)
+# Extract and clean lemmas
+lemmas = [
+    token.lemma_.lower().strip()
+    for token in doc
+    if not token.is_stop  # Remove stop words
+    and not token.is_punct  # Remove punctuation
+    and not token.is_digit  # Remove numbers
+    and token.text.strip()  # Remove empty strings or whitespace
+]
 
-# Extract lemmas, normalize to lowercase, and count frequencies
-lemmas = [token.lemma_.lower() for token in doc if token.is_alpha]  # Only consider alphabetic tokens
-lemma_frequencies = Counter(lemmas)
+# Count lemma frequencies
+lemma_counts = Counter(lemmas)
 
 # Get the 5 most common lemmas
-most_common_lemmas = lemma_frequencies.most_common(5)
+most_common_lemmas = lemma_counts.most_common(5)
 
 # Print the results
 print("5 Most Frequent Lemmas:")
-for lemma, frequency in most_common_lemmas:
-    print(f"Lemma: {lemma}, Frequency: {frequency}")
+for lemma, freq in most_common_lemmas:
 ```
 
 ### Question 5. Make a list containing the scores (using tokens) of every sentence in the article, and plot a histogram with appropriate titles and axis labels of the scores. From your histogram, what seems to be the most common range of scores (put the answer in a comment after your code)?
 
 ```python
-# Calculate sentiment scores for each sentence
+# Create a list of sentiment scores for each sentence
 sentence_scores = [sent._.blob.polarity for sent in doc.sents]
 
-# Plot a histogram of the scores
+# Plot a histogram of the sentiment scores
 plt.figure(figsize=(10, 6))
-plt.hist(sentence_scores, bins=10, color='blue', edgecolor='black', alpha=0.7)
-plt.title('Histogram of Sentiment Scores by Sentence', fontsize=16)
-plt.xlabel('Sentiment Score', fontsize=12)
-plt.ylabel('Frequency', fontsize=12)
+plt.hist(sentence_scores, bins=10, edgecolor='black', alpha=0.7)
+plt.title('Histogram of Sentence Sentiment Scores')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
+
+# Print the sentiment scores (optional)
+print("Sentence Sentiment Scores:")
+print(sentence_scores)
+
+# Comment on the most common range of scores
+# Based on the histogram, the most common range of scores appears to be around 0 (neutral),
+# indicating the article's tone is largely factual and unbiased.
 ```
 
 ### Question 6. Make a list containing the scores (using lemmas) of every sentence in the article, and plot a histogram with appropriate titles and axis labels of the scores. From your histogram, what seems to be the most common range of scores (put the answer in a comment after your code)?
 
 ```python
-#  Plot a histogram of the scores
+# Create a list of sentiment scores using lemmas for each sentence
+sentence_lemma_scores = []
+for sent in doc.sents:
+    lemmas = [token.lemma_.lower() for token in sent if not token.is_stop and not token.is_punct]
+    lemma_doc = nlp(" ".join(lemmas))
+    sentence_lemma_scores.append(lemma_doc._.blob.polarity)
+
+# Plot a histogram of the sentiment scores using lemmas
 plt.figure(figsize=(10, 6))
-plt.hist(sentence_scores, bins=10, color='green', edgecolor='black', alpha=0.7)
-plt.title('Histogram of Sentiment Scores by Sentence (Using Lemmas)', fontsize=16)
-plt.xlabel('Sentiment Score', fontsize=12)
-plt.ylabel('Frequency', fontsize=12)
+plt.hist(sentence_lemma_scores, bins=10, edgecolor='black', alpha=0.7)
+plt.title('Histogram of Sentence Sentiment Scores (Using Lemmas)')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
+
+# Print the sentiment scores (optional)
+print("Sentence Sentiment Scores (Using Lemmas):")
+print(sentence_lemma_scores)
+
+# Comment on the most common range of scores
+# Based on the histogram, the most common range of scores appears to be around 0 (neutral),
+# indicating the article's tone is largely factual and unbiased.
 ```
 
 ### Question 7. Using the histograms from questions 5 and 6, decide a "cutoff" score for tokens and lemmas such that fewer than half the sentences would have a score greater than the cutoff score. Record the scores in this Markdown cell
@@ -242,152 +276,138 @@ Feel free to change these scores as you generate your summaries. Ideally, we're 
 
 
 ```python
-# Decide cutoff scores based on histograms
-# Calculate cutoff such that fewer than half the sentences exceed the cutoff
-cutoff_tokens = np.percentile(token_scores, 50)  # Median score for tokens
-cutoff_lemmas = np.percentile(lemma_scores, 50)  # Median score for lemmas
+# Create sentiment scores for tokens and lemmas
+sentence_token_scores = [sent._.blob.polarity for sent in doc.sents]
+sentence_lemma_scores = []
+for sent in doc.sents:
+    lemmas = [token.lemma_.lower() for token in sent if not token.is_stop and not token.is_punct]
+    lemma_doc = nlp(" ".join(lemmas))
+    sentence_lemma_scores.append(lemma_doc._.blob.polarity)
 
-# Print the cutoff scores
-print(f"Cutoff Score (tokens): {cutoff_tokens:.2f}")
-print(f"Cutoff Score (lemmas): {cutoff_lemmas:.2f}")
+# Calculate cutoff scores dynamically
+token_cutoff = np.percentile(sentence_token_scores, 50)  # Median score (50th percentile)
+lemma_cutoff = np.percentile(sentence_lemma_scores, 50)  # Median score (50th percentile)
 
-#  Select sentences based on cutoff scores
-# Token-based summary
-token_summary = [sent.text for sent in doc.sents if sent._.blob.polarity > cutoff_tokens]
+# Filter sentences based on cutoff scores
+selected_sentences_tokens = [sent.text for sent, score in zip(doc.sents, sentence_token_scores) if score > token_cutoff]
+selected_sentences_lemmas = [sent.text for sent, score in zip(doc.sents, sentence_lemma_scores) if score > lemma_cutoff]
 
-# Lemma-based summary
-lemma_summary = [
-    sent.text for sent in doc.sents
-    if len([token for token in sent if token.is_alpha]) > 0 and
-    (sum(token._.blob.polarity for token in sent if token.is_alpha) / len([token for token in sent if token.is_alpha])) > cutoff_lemmas
-]
+# Print selected sentences
+print("Selected Sentences (Tokens):")
+for sentence in selected_sentences_tokens:
+    print(sentence)
 
-# Print the summaries
-print("\nToken-Based Summary:")
-for sentence in token_summary[:10]:  # Limit to 10 sentences
-    print(f"- {sentence}")
+print("\nSelected Sentences (Lemmas):")
+for sentence in selected_sentences_lemmas:
+    print(sentence)
 
-print("\nLemma-Based Summary:")
-for sentence in lemma_summary[:10]:  # Limit to 10 sentences
-    print(f"- {sentence}")
+# Plot histograms with cutoff lines
+plt.figure(figsize=(12, 6))
 
-# Output the number of selected sentences
-print(f"\nNumber of sentences in Token-Based Summary: {len(token_summary)}")
-print(f"Number of sentences in Lemma-Based Summary: {len(lemma_summary)}")
-```
-
-```python
-# Calculate sentiment scores for tokens and lemmas
-# Token-based scores
-token_scores = [sent._.blob.polarity for sent in doc.sents]
-
-# Lemma-based scores (ensure division by zero does not occur)
-lemma_scores = [
-    (sum(token._.blob.polarity for token in sent if token.is_alpha) / len([token for token in sent if token.is_alpha]))
-    if len([token for token in sent if token.is_alpha]) > 0 else 0
-    for sent in doc.sents
-]
-
-# Calculate cutoff scores
-cutoff_tokens = np.percentile(token_scores, 50)  # Median score for tokens
-cutoff_lemmas = np.percentile(lemma_scores, 50)  # Median score for lemmas
-
-# Plot histograms
-plt.figure(figsize=(15, 6))
-
-# Token-based histogram
+# Tokens histogram
 plt.subplot(1, 2, 1)
-plt.hist(token_scores, bins=10, color='blue', edgecolor='black', alpha=0.7)
-plt.axvline(cutoff_tokens, color='red', linestyle='--', label=f"Cutoff: {cutoff_tokens:.2f}")
-plt.title("Histogram of Token Sentiment Scores", fontsize=16)
-plt.xlabel("Sentiment Score (tokens)", fontsize=12)
-plt.ylabel("Frequency", fontsize=12)
+plt.hist(sentence_token_scores, bins=10, edgecolor='black', alpha=0.7)
+plt.axvline(x=token_cutoff, color='red', linestyle='--', label=f"Cutoff = {token_cutoff:.2f}")
+plt.title('Histogram of Sentence Sentiment Scores (Tokens)')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
 plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 
-# Lemma-based histogram
+# Lemmas histogram
 plt.subplot(1, 2, 2)
-plt.hist(lemma_scores, bins=10, color='green', edgecolor='black', alpha=0.7)
-plt.axvline(cutoff_lemmas, color='red', linestyle='--', label=f"Cutoff: {cutoff_lemmas:.2f}")
-plt.title("Histogram of Lemma Sentiment Scores", fontsize=16)
-plt.xlabel("Sentiment Score (lemmas)", fontsize=12)
-plt.ylabel("Frequency", fontsize=12)
+plt.hist(sentence_lemma_scores, bins=10, edgecolor='black', alpha=0.7)
+plt.axvline(x=lemma_cutoff, color='red', linestyle='--', label=f"Cutoff = {lemma_cutoff:.2f}")
+plt.title('Histogram of Sentence Sentiment Scores (Lemmas)')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
 plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 
-# Display the plots
 plt.tight_layout()
 plt.show()
 
-# Print the cutoff scores
-print(f"Cutoff Score (tokens): {cutoff_tokens:.2f}")
-print(f"Cutoff Score (lemmas): {cutoff_lemmas:.2f}")
+# Record cutoffs
+print(f"\nCutoff Score (tokens): {token_cutoff:.2f}")
+print(f"Cutoff Score (lemmas): {lemma_cutoff:.2f}")
 ```
 
 ### Question 8. Create a summary of the article by going through every sentence in the article and adding it to an (initially) empty list if its score (based on tokens) is greater than the cutoff score you identified in question 8. If your loop variable is named sent, you may find it easier to add sent.text.strip() to your list of sentences. Print the summary (I would cleanly generate the summary text by joining the strings in your list together with a space (' '.join(sentence_list)).
 
 ```python
-# Calculate sentiment scores for tokens
-token_scores = [sent._.blob.polarity for sent in doc.sents]
+# Process the article text with SpaCy
+doc = nlp(article_text)
 
-# Determine the cutoff score (median value)
-token_cutoff = np.percentile(token_scores, 50)  # Median value
+# Create sentiment scores for tokens
+sentence_token_scores = [sent._.blob.polarity for sent in doc.sents]
 
-# Generate a summary based on the cutoff score
-summary_sentences = [sent.text.strip() for sent, score in zip(doc.sents, token_scores) if score > token_cutoff]
+# Define cutoff score dynamically (50th percentile)
+token_cutoff = np.percentile(sentence_token_scores, 50)  # Median score
 
-# Combine sentences into a single summary text
+# Create a summary list for sentences with scores greater than the cutoff
+summary_sentences = [sent.text.strip() for sent, score in zip(doc.sents, sentence_token_scores) if score > token_cutoff]
+
+# Join the summary sentences into a single text
 summary_text = ' '.join(summary_sentences)
 
 # Print the summary
-print("Article Summary:")
+print("Summary of the Article:")
 print(summary_text)
+
+# Print the cutoff score for reference
+print(f"\nCutoff Score (tokens): {token_cutoff:.2f}")
 ```
+
 
 ### Question 9. Print the polarity score of your summary you generated with the token scores (with an appropriate label). Additionally, print the number of sentences in the summarized article.
 
 ```python
-#  Calculate the polarity score of the summary
+# Calculate the polarity score of the summary
 summary_doc = nlp(summary_text)
 summary_polarity = summary_doc._.blob.polarity
 
 # Count the number of sentences in the summary
-num_summary_sentences = len(list(summary_doc.sents))
+summary_sentence_count = len(list(summary_doc.sents))
 
-#  Print the results
-print(f"Polarity Score of Summary: {summary_polarity:.2f}")
-print(f"Number of Sentences in the Summary: {num_summary_sentences}")
+# Print the results
+print(f"Polarity Score of the Summary: {summary_polarity:.2f}")
+print(f"Number of Sentences in the Summary: {summary_sentence_count}")
 ```
 
 ### Question 10. Create a summary of the article by going through every sentence in the article and adding it to an (initially) empty list if its score (based on lemmas) is greater than the cutoff score you identified in question 8. If your loop variable is named sent, you may find it easier to add sent.text.strip() to your list of sentences. Print the summary (I would cleanly generate the summary text by joining the strings in your list together with a space (' '.join(sentence_list)).
 
 ```python
-#  Generate a summary based on lemma scores and the cutoff score
-lemma_summary_sentences = [
-    sent.text.strip()
-    for sent, score in zip(doc.sents, lemma_scores)
+# Create a summary list for sentences with lemma-based scores greater than the cutoff
+summary_sentences_lemmas = [
+    sent.text.strip() 
+    for sent, score in zip(doc.sents, sentence_lemma_scores) 
     if score > lemma_cutoff
 ]
 
-# Combine sentences into a single summary text
-lemma_summary_text = ' '.join(lemma_summary_sentences)
+# Join the summary sentences into a single text
+summary_text_lemmas = ' '.join(summary_sentences_lemmas)
 
 # Print the summary
-print("Article Summary (Based on Lemmas):")
-print(lemma_summary_text)
+print("Summary of the Article (Based on Lemmas):")
+print(summary_text_lemmas)
+
+# Print the cutoff score for reference
+print(f"\nCutoff Score (lemmas): {lemma_cutoff:.2f}")
 ```
 
 ### Question 11. Print the polarity score of your summary you generated with the lemma scores (with an appropriate label). Additionally, print the number of sentences in the summarized article.
 
 ```python
-#  Calculate the polarity score of the lemma-based summary
-lemma_summary_doc = nlp(lemma_summary_text)
-lemma_summary_polarity = lemma_summary_doc._.blob.polarity
+# Calculate the polarity score of the lemma-based summary
+summary_doc_lemmas = nlp(summary_text_lemmas)
+summary_polarity_lemmas = summary_doc_lemmas._.blob.polarity
 
 # Count the number of sentences in the lemma-based summary
-num_lemma_summary_sentences = len(list(lemma_summary_doc.sents))
+summary_sentence_count_lemmas = len(list(summary_doc_lemmas.sents))
 
 # Print the results
-print(f"Polarity Score of Lemma-Based Summary: {lemma_summary_polarity:.2f}")
-print(f"Number of Sentences in the Lemma-Based Summary: {num_lemma_summary_sentences}")
+print(f"Polarity Score of the Lemma-Based Summary: {summary_polarity_lemmas:.2f}")
+print(f"Number of Sentences in the Lemma-Based Summary: {summary_sentence_count_lemmas}")
 ```
 
 ### Question 12. Compare your polarity scores of your summaries to the polarity scores of the initial article. Is there a difference? Why do you think that may or may not be?. Answer in this Markdown cell.
